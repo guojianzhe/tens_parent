@@ -164,4 +164,10 @@ public class EnterpriseService {
 
 	}
 
+	//热门企业
+	public List<Enterprise> findByIshotEnterprise(){
+
+		return enterpriseDao.findByIshot("1");
+	}
+
 }

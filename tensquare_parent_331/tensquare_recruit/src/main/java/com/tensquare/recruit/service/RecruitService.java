@@ -179,5 +179,15 @@ public class RecruitService {
 		};
 
 	}
+	//推荐职位列表
+	public List<Recruit> getRecommendRecruit(){
+		return recruitDao.findTop4ByStateOrderByCreatetimeDesc("2");
+	}
+
+	//最新职位列表
+	public List<Recruit> getNewRecruit(){
+		return recruitDao.findTop12ByStateNotOrderByCreatetimeDesc("0");
+	}
+
 
 }
