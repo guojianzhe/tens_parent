@@ -2,7 +2,10 @@ package com.tensquare.spit.service;
 
 import com.tensquare.spit.dao.SpitDao;
 import com.tensquare.spit.pojo.Spit;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import util.IdWorker;
 
@@ -41,6 +44,15 @@ public class SpitService {
     //查 查询所有
     public List<Spit> findAll() {
         return spitDao.findAll();
+    }
+
+    ///spit/comment/{parentid}/{page}/{size}
+    public PageResult<Spit> findByParentid(String parentId,Integer page,Integer size){
+
+
+        Page pagesize = spitDao.findByParentid(parentId, PageRequest.of(page, size));
+
+        return  new PageResult<Spit>(pagesize.getTotalElements(),pagesize.getContent());
     }
 
 
