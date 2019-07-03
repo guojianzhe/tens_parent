@@ -1,4 +1,4 @@
-package com.tensquare.recruit.controller;
+package com.tensquare.qa.controller;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tensquare.recruit.pojo.Recruit;
-import com.tensquare.recruit.service.RecruitService;
+import com.tensquare.qa.pojo.Reply;
+import com.tensquare.qa.service.ReplyService;
 
 import entity.PageResult;
 import entity.Result;
@@ -24,11 +24,11 @@ import entity.Result;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/recruit")
-public class RecruitController {
+@RequestMapping("/reply")
+public class ReplyController {
 
 	@Autowired
-	private RecruitService recruitService;
+	private ReplyService replyService;
 	
 	
 	/**
@@ -37,7 +37,7 @@ public class RecruitController {
 	 */
 	@RequestMapping(method= RequestMethod.GET)
 	public Result findAll(){
-		return new Result(true, StatusCode.OK,"查询成功",recruitService.findAll());
+		return new Result(true, StatusCode.OK,"查询成功",replyService.findAll());
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class RecruitController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.GET)
 	public Result findById(@PathVariable String id){
-		return new Result(true,StatusCode.OK,"查询成功",recruitService.findById(id));
+		return new Result(true, StatusCode.OK,"查询成功",replyService.findById(id));
 	}
 
 
@@ -59,8 +59,8 @@ public class RecruitController {
 	 */
 	@RequestMapping(value="/{page}/{size}",method=RequestMethod.GET)
 	public Result findPage(@PathVariable int page,@PathVariable int size){
-		Page<Recruit> pageList = recruitService.findPage(page, size);
-		return new Result(true,StatusCode.OK,"查询成功",new PageResult<Recruit>(pageList.getTotalElements(), pageList.getContent() ) );
+		Page<Reply> pageList = replyService.findPage(page, size);
+		return new Result(true, StatusCode.OK,"查询成功",new PageResult<Reply>(pageList.getTotalElements(), pageList.getContent() ) );
 	}
 
 
@@ -73,29 +73,29 @@ public class RecruitController {
 	 */
 	@RequestMapping(value="/{page}/{size}",method=RequestMethod.POST)
 	public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
-		Page<Recruit> pageList = recruitService.findSearch(searchMap, page, size);
-		return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Recruit>(pageList.getTotalElements(), pageList.getContent()) );
+		Page<Reply> pageList = replyService.findSearch(searchMap, page, size);
+		return  new Result(true, StatusCode.OK,"查询成功",  new PageResult<Reply>(pageList.getTotalElements(), pageList.getContent()) );
 	}
 
 	/**
 	 * 增加
-	 * @param recruit
+	 * @param reply
 	 */
 	@RequestMapping(method=RequestMethod.POST)
-	public Result add(@RequestBody Recruit recruit  ){
-		recruitService.add(recruit);
-		return new Result(true,StatusCode.OK,"增加成功");
+	public Result add(@RequestBody Reply reply  ){
+		replyService.add(reply);
+		return new Result(true, StatusCode.OK,"增加成功");
 	}
 	
 	/**
 	 * 修改
-	 * @param recruit
+	 * @param reply
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.PUT)
-	public Result update(@RequestBody Recruit recruit, @PathVariable String id ){
-		recruit.setId(id);
-		recruitService.update(recruit);		
-		return new Result(true,StatusCode.OK,"修改成功");
+	public Result update(@RequestBody Reply reply, @PathVariable String id ){
+		reply.setId(id);
+		replyService.update(reply);		
+		return new Result(true, StatusCode.OK,"修改成功");
 	}
 	
 	/**
@@ -104,30 +104,8 @@ public class RecruitController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.DELETE)
 	public Result delete(@PathVariable String id ){
-		recruitService.deleteById(id);
-		return new Result(true,StatusCode.OK,"删除成功");
-	}
-
-	/**
-	 * 推荐职位列表
-
-	 */
-	@RequestMapping(value="/search/recommend",method= RequestMethod.GET)
-	public Result recommend(){
-
-		List<Recruit> recommendRecruit = recruitService.getRecommendRecruit();
-		return new Result(true,StatusCode.OK,"修改成功",recommendRecruit);
-	}
-
-	/**
-	 * 最新职位列表
-
-	 */
-	@RequestMapping(value="/search/newlist",method= RequestMethod.GET)
-	public Result newList(){
-
-		List<Recruit> newRecruit = recruitService.getNewRecruit();
-		return new Result(true,StatusCode.OK,"修改成功",newRecruit);
+		replyService.deleteById(id);
+		return new Result(true, StatusCode.OK,"删除成功");
 	}
 	
 }
