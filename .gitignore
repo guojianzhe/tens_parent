@@ -1,3 +1,5 @@
 /tensquare_parent_331/tensquare_base/target
 /tensquare_parent_331/tensquare_article/src/main/resources/application.yml
 /tensquare_parent_331/tensquare_spit/*.iml
+/tensquare_parent_331/tensquare_search/*.iml
+/tensquare_parent_331/tensquare_sms/*.iml
