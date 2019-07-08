@@ -1,8 +1,7 @@
 package com.tensquare.user.controller;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.tensquare.user.pojo.User;
 import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +17,8 @@ import com.tensquare.user.service.AdminService;
 
 import entity.PageResult;
 import entity.Result;
+import util.JwtUtils;
+
 /**
  * 控制器层
  * @author Administrator
@@ -30,7 +31,9 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
-	
+
+	@Autowired
+	private JwtUtils jwtUtils;
 	
 	/**
 	 * 查询全部数据
@@ -43,7 +46,7 @@ public class AdminController {
 
 
 	/**
-	 * 管理员登录登录
+	 * 管理员登录
 	 * @return
 	 */
 	@RequestMapping(value = "/login",method= RequestMethod.POST)
@@ -55,7 +58,14 @@ public class AdminController {
 			return new Result(false, StatusCode.LOGINERROR,"登录失败");
 		}
 
-		return new Result(true, StatusCode.OK,"登录成功");
+		//登录成功生成token
+		String token = jwtUtils.generateToken(loginAdmin.getId(), loginAdmin.getLoginname(), "admin");
+
+		Map map = new HashMap();
+		map.put("token",token);
+		map.put("name",loginAdmin.getLoginname());
+
+		return new Result(true, StatusCode.OK,"登录成功",map);
 	}
 	/**
 	 * 根据ID查询
